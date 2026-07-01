@@ -147,8 +147,8 @@ struct SettingsView: View {
             if Self.availableBackends.contains(current) {
                 selectedBackend = current
             } else {
-                selectedBackend = .foundationModels
-                LLMBackend.current = .foundationModels
+                selectedBackend = .disabled
+                LLMBackend.current = .disabled
             }
             loadSettingsForBackend(selectedBackend)
             isAccessibilityTrusted = AccessibilityPermission.isTrusted
@@ -201,7 +201,7 @@ struct SettingsView: View {
     private func loadSettingsForBackend(_ backend: LLMBackend) {
         isSaved = false
         switch backend.configKind {
-        case .disabled, .onDevice:
+        case .disabled:
             apiKey = ""
             cliPath = ""
         case .api(let keychainKey, _):

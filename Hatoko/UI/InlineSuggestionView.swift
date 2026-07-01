@@ -6,7 +6,7 @@ struct InlineSuggestionView: View {
     let hasContext: Bool
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        let content = VStack(alignment: .leading, spacing: 0) {
             header
             ThinkingAnimationView(
                 suggestion: suggestion,
@@ -15,7 +15,12 @@ struct InlineSuggestionView: View {
             footer
         }
         .frame(minWidth: 320, maxWidth: 480)
-        .glassEffect(.regular, in: .rect(cornerRadius: 10))
+
+        if #available(macOS 26, *) {
+            content.glassEffect(.regular, in: .rect(cornerRadius: 10))
+        } else {
+            content.background(.regularMaterial, in: .rect(cornerRadius: 10))
+        }
     }
 
     private var header: some View {

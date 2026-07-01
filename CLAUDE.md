@@ -84,7 +84,7 @@ subject: imperative mood, lowercase, no period
 - **XcodeGen** (`project.yml`) generates `.xcodeproj` — `.xcodeproj` is gitignored
 - **Mint** (`Mintfile`) manages build tools (XcodeGen, SwiftLint)
 - External package: `AzooKeyKanaKanjiConverter` (SPM, branch: main)
-- macOS 26.0+ / Xcode 26.0+
+- macOS 15.0+ / Xcode 26.0+
 
 ## IME-Specific Notes
 

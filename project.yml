@@ -2,7 +2,7 @@ name: Hatoko
 options:
   bundleIdPrefix: com.chigichan24
   deploymentTarget:
-    macOS: "26.0"
+    macOS: "15.0"
   xcodeVersion: "26.0"
   groupSortPosition: top
 

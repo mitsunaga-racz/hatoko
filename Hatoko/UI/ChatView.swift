@@ -36,7 +36,7 @@ struct ChatView: View {
     let onCancel: () -> Void
 
     var body: some View {
-        VStack(spacing: 0) {
+        let content = VStack(spacing: 0) {
             header
             Divider()
             messageList
@@ -44,7 +44,15 @@ struct ChatView: View {
             inputArea
         }
         .frame(width: 380)
-        .glassEffect(.regular, in: .rect(topLeadingRadius: 0, bottomLeadingRadius: 10, bottomTrailingRadius: 10, topTrailingRadius: 0))
+        let shape = UnevenRoundedRectangle(
+            topLeadingRadius: 0, bottomLeadingRadius: 10, bottomTrailingRadius: 10, topTrailingRadius: 0
+        )
+
+        if #available(macOS 26, *) {
+            content.glassEffect(.regular, in: shape)
+        } else {
+            content.background(.regularMaterial, in: shape)
+        }
     }
 
     private var header: some View {
