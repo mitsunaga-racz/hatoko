@@ -148,6 +148,16 @@ final class HatokoInputController: IMKInputController, @unchecked Sendable {
 
         NSLog("[Hatoko] handle: keyCode=%d chars=%@ mode=%@", event.keyCode, event.characters ?? "nil", "\(inputMode)")
 
+        // Swallow bare JIS Eisu/Kana mode-switch keys. Tools like Karabiner-Elements can
+        // synthesize these from a lone Command tap; since Hatoko has no case for them they'd
+        // otherwise fall through to handleCharacterInput and leak the raw event to the client.
+        // The actual mode switch (if any) arrives separately via setValue(_:forTag:client:).
+        // Modifier-qualified presses (e.g. a user shortcut coincidentally on this keyCode) are
+        // left untouched so they keep flowing through the normal pass-through path below.
+        if isBareEisuOrKana(event: event) {
+            return true
+        }
+
         // Open settings with ⌘,
         if isCommandComma(event: event) {
             MainActor.assumeIsolated {
@@ -222,6 +232,11 @@ final class HatokoInputController: IMKInputController, @unchecked Sendable {
             return true
         }
         return nil
+    }
+
+    private func isBareEisuOrKana(event: NSEvent) -> Bool {
+        guard event.keyCode == KeyCode.eisu || event.keyCode == KeyCode.kana else { return false }
+        return event.modifierFlags.isDisjoint(with: .deviceIndependentFlagsMask)
     }
 
     private func isCommandComma(event: NSEvent) -> Bool {

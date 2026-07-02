@@ -9,4 +9,6 @@ enum KeyCode {
     static let comma: UInt16 = 43
     static let v: UInt16 = 9
     static let d: UInt16 = 2
+    static let eisu: UInt16 = 102
+    static let kana: UInt16 = 104
 }
